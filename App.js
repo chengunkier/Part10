@@ -11,12 +11,7 @@ const App = () => {
   return (
     <>
       <StatusBar style="light" />
-      <NativeRouter
-        future={{
-          v7_startTransition: true,
-          v7_relativeSplatPath: true,
-        }}
-      >
+      <NativeRouter>
         <ApolloProvider client={apolloClient}>
           <Main />
         </ApolloProvider>
