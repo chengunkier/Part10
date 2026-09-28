@@ -6,6 +6,7 @@ import { NativeRouter } from 'react-router-native';
 import Main from './src/components/Main';
 import createApolloClient from './src/utils/apolloClient';
 import AuthStorage from './src/utils/authStorage';
+import AuthStorageContext from './src/contexts/AuthStorageContext';
 
 LogBox.ignoreLogs(['React Router Future Flag Warning']);
 
@@ -18,7 +19,9 @@ const App = () => {
       <StatusBar style="light" />
       <NativeRouter>
         <ApolloProvider client={apolloClient}>
-          <Main />
+          <AuthStorageContext.Provider value={authStorage}>
+            <Main />
+          </AuthStorageContext.Provider>
         </ApolloProvider>
       </NativeRouter>
     </>
