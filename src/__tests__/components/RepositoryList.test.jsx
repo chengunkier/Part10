@@ -60,10 +60,10 @@ describe('RepositoryList', () => {
         within(firstItem).getByText('Build forms in React, without the tears'),
       ).toBeDefined();
       expect(within(firstItem).getByText('TypeScript')).toBeDefined();
-      expect(within(firstItem).getByText('Stars: 21856')).toBeDefined();
-      expect(within(firstItem).getByText('Forks: 1619')).toBeDefined();
-      expect(within(firstItem).getByText('Reviews: 3')).toBeDefined();
-      expect(within(firstItem).getByText('Rating: 88')).toBeDefined();
+      expect(within(firstItem).getByText('21.9k')).toBeDefined(); // stars
+      expect(within(firstItem).getByText('1.6k')).toBeDefined(); // forks
+      expect(within(firstItem).getByText('3')).toBeDefined(); // reviews
+      expect(within(firstItem).getByText('88')).toBeDefined(); // rating
 
       // Second repository
       expect(
@@ -73,10 +73,10 @@ describe('RepositoryList', () => {
         within(secondItem).getByText('Flexible promise-based React data loader'),
       ).toBeDefined();
       expect(within(secondItem).getByText('JavaScript')).toBeDefined();
-      expect(within(secondItem).getByText('Stars: 1760')).toBeDefined();
-      expect(within(secondItem).getByText('Forks: 69')).toBeDefined();
-      expect(within(secondItem).getByText('Reviews: 3')).toBeDefined();
-      expect(within(secondItem).getByText('Rating: 72')).toBeDefined();
+      expect(within(secondItem).getByText('1.8k')).toBeDefined(); // stars
+      expect(within(secondItem).getByText('69')).toBeDefined(); // forks
+      expect(within(secondItem).getByText('3')).toBeDefined(); // reviews
+      expect(within(secondItem).getByText('72')).toBeDefined(); // rating
     });
   });
 });

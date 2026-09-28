@@ -1,107 +1,104 @@
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, Pressable, StyleSheet } from 'react-native';
+import * as Linking from 'expo-linking';
+
 import Text from './Text';
 import theme from '../theme';
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
     backgroundColor: 'white',
+    padding: 15,
   },
-  topRow: {
+  top: {
     flexDirection: 'row',
-    marginBottom: 15,
   },
   avatar: {
     width: 50,
     height: 50,
-    borderRadius: 5,
+    borderRadius: 4,
     marginRight: 15,
   },
-  infoContainer: {
-    flexShrink: 1,
-    justifyContent: 'space-between',
+  info: {
+    flex: 1,
+    alignItems: 'flex-start',
   },
-  fullName: {
-    marginBottom: 5,
+  name: {
+    fontWeight: theme.fontWeights.bold,
+    fontSize: 18,
+    marginBottom: 6,
   },
   description: {
-    marginBottom: 5,
+    marginBottom: 6,
   },
   language: {
-    alignSelf: 'flex-start',
-    backgroundColor: theme.colors.primary,
     color: 'white',
+    backgroundColor: theme.colors.primary,
     paddingVertical: 4,
     paddingHorizontal: 8,
     borderRadius: 4,
-    fontSize: 12,
     overflow: 'hidden',
   },
-  statsRow: {
+  stats: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    marginTop: 15,
   },
-  statItem: {
+  stat: {
     alignItems: 'center',
   },
   statCount: {
-    marginBottom: 3,
+    fontWeight: theme.fontWeights.bold,
+  },
+  button: {
+    backgroundColor: theme.colors.primary,
+    borderRadius: 4,
+    padding: 15,
+    alignItems: 'center',
+    marginTop: 15,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: theme.fontWeights.bold,
   },
 });
 
-const formatCount = (count) => {
-  if (count >= 1000) {
-    return `${(count / 1000).toFixed(1)}k`;
-  }
-  return count.toString();
-};
+const formatCount = (count) =>
+  count >= 1000 ? `${(count / 1000).toFixed(1)}k` : String(count);
 
-const RepositoryItem = ({ item }) => {
-  return (
-    <View style={styles.container} testID="repositoryItem">
-      <View style={styles.topRow}>
-        <Image
-          style={styles.avatar}
-          source={{ uri: item.ownerAvatarUrl }}
-        />
-        <View style={styles.infoContainer}>
-          <Text style={styles.fullName} fontWeight="bold" fontSize="subheading">
-            {item.fullName}
-          </Text>
-          <Text style={styles.description} color="textSecondary">
-            {item.description}
-          </Text>
-          <Text style={styles.language}>{item.language}</Text>
-        </View>
-      </View>
-      <View style={styles.statsRow}>
-        <View style={styles.statItem}>
-          <Text style={styles.statCount} fontWeight="bold">
-            {formatCount(item.stargazersCount)}
-          </Text>
-          <Text color="textSecondary">Stars</Text>
-        </View>
-        <View style={styles.statItem}>
-          <Text style={styles.statCount} fontWeight="bold">
-            {formatCount(item.forksCount)}
-          </Text>
-          <Text color="textSecondary">Forks</Text>
-        </View>
-        <View style={styles.statItem}>
-          <Text style={styles.statCount} fontWeight="bold">
-            {item.reviewCount}
-          </Text>
-          <Text color="textSecondary">Reviews</Text>
-        </View>
-        <View style={styles.statItem}>
-          <Text style={styles.statCount} fontWeight="bold">
-            {item.ratingAverage}
-          </Text>
-          <Text color="textSecondary">Rating</Text>
-        </View>
+const Stat = ({ count, label }) => (
+  <View style={styles.stat}>
+    <Text style={styles.statCount}>{formatCount(count)}</Text>
+    <Text>{label}</Text>
+  </View>
+);
+
+const RepositoryItem = ({ item, showGithubButton = false }) => (
+  <View testID="repositoryItem" style={styles.container}>
+    <View style={styles.top}>
+      <Image style={styles.avatar} source={{ uri: item.ownerAvatarUrl }} />
+      <View style={styles.info}>
+        <Text style={styles.name}>{item.fullName}</Text>
+        <Text style={styles.description}>{item.description}</Text>
+        <Text style={styles.language}>{item.language}</Text>
       </View>
     </View>
-  );
-};
+
+    <View style={styles.stats}>
+      <Stat count={item.stargazersCount} label="Stars" />
+      <Stat count={item.forksCount} label="Forks" />
+      <Stat count={item.reviewCount} label="Reviews" />
+      <Stat count={item.ratingAverage} label="Rating" />
+    </View>
+
+    {showGithubButton && (
+      <Pressable
+        style={styles.button}
+        onPress={() => Linking.openURL(item.url)}
+      >
+        <Text style={styles.buttonText}>Open in GitHub</Text>
+      </Pressable>
+    )}
+  </View>
+);
 
 export default RepositoryItem;
