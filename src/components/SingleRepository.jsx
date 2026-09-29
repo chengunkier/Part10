@@ -62,7 +62,7 @@ export const ReviewItem = ({ review }) => (
 
 const SingleRepository = () => {
   const { id } = useParams();
-  const { repository, loading, error } = useRepository(id);
+  const { repository, fetchMore, loading, error } = useRepository(id, 3);
 
   if (error) {
     return <Text style={{ padding: 15 }}>Error: {error.message}</Text>;
@@ -86,6 +86,8 @@ const SingleRepository = () => {
       renderItem={({ item }) => <ReviewItem review={item} />}
       keyExtractor={({ id }) => id}
       ItemSeparatorComponent={ItemSeparator}
+      onEndReached={fetchMore}
+      onEndReachedThreshold={0.5}
       ListHeaderComponent={
         <View>
           <RepositoryItem item={repository} showGithubButton />

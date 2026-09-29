@@ -53,6 +53,7 @@ export const RepositoryListContainer = ({
   onPrincipleChange,
   searchKeyword,
   onSearchKeywordChange,
+  onEndReached,
 }) => {
   const repositoryNodes = repositories
     ? repositories.edges.map((edge) => edge.node)
@@ -68,6 +69,8 @@ export const RepositoryListContainer = ({
         </Pressable>
       )}
       keyExtractor={(item) => item.id}
+      onEndReached={onEndReached}
+      onEndReachedThreshold={0.5}
       ListHeaderComponent={
         onPrincipleChange && (
           <View style={styles.headerContainer}>
@@ -102,10 +105,11 @@ const RepositoryList = () => {
 
   const { orderBy, orderDirection } = orderingPrinciples[principle];
 
-  const { repositories, loading, error } = useRepositories({
+  const { repositories, fetchMore, loading, error } = useRepositories({
     orderBy,
     orderDirection,
     searchKeyword: debouncedSearchKeyword,
+    first: 5,
   });
   const navigate = useNavigate();
 
@@ -120,6 +124,7 @@ const RepositoryList = () => {
       onPrincipleChange={setPrinciple}
       searchKeyword={searchKeyword}
       onSearchKeywordChange={setSearchKeyword}
+      onEndReached={fetchMore}
     />
   );
 };
